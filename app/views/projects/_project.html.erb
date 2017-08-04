@@ -5,6 +5,20 @@
   <h5>
     <%=project.description%>
   <h5>
+    <h5>
+    Project Members
+    <br>
+    <ol>
+    <% project.users.each { |u|%>
+      <li>
+        <%=u.name.capitalize%>
+      </li>
+      <%}%>
+    </ol>
+
+  <h5>
+
+
   <% if current_user.admin? %>
     <%= link_to "delete", project, method: :delete,
                                   data: { confirm: "You sure?" } %>
