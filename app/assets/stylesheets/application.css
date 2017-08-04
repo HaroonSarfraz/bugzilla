@@ -20,3 +20,5 @@
 
 # LESS
 *= require devise_foundation_views_less
+*= require bootstrap
+*= require bootstrap-datetimepicker

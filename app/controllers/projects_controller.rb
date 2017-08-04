@@ -32,9 +32,14 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @project.title = params[:project][:title]
     @project.description = params[:project][:description]
-
-
     if @project.save
+      @up = UserProject.new
+      @up.project = @project
+      @up.user= User.find(params[:user][:user_id])
+      @up.save
+      puts("this is given value")
+      puts(@up.user.name)
+
       flash[:success] = "Project Information updated"
       redirect_to @project
     else
@@ -44,6 +49,7 @@ class ProjectsController < ApplicationController
 
   def edit
     @project = Project.find(params[:id])
+
   end
 
   def destroy

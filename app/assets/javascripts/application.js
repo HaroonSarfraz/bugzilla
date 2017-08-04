@@ -17,3 +17,6 @@
  *= require_self
  *= require_tree .
  *= require twitter/bootstrap/responsive
+ /= require moment
+//= require bootstrap-datetimepicker
+//= require moment/<locale>

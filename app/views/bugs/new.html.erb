@@ -1,2 +1,17 @@
-<h1>Bugs#new</h1>
-<p>Find me in app/views/bugs/new.html.erb</p>
+<h1>New Bug</h1>
+<div class="container" style="width:500px;float:left;margin-left: 50px">
+<%= bootstrap_form_for(@bug, layout: :inline, label_col: "col-sm-2") do |f| %>
+  <%= f.text_field :title , layout: :default  %><br><br>
+
+  <%= f.text_area :description, layout: :default %><br><br>
+  <%= f.datetime_select :deadline  %><br><br>
+
+  <h5>Created by :</h5><%= collection_select(:bug,:created_by, User.all ,:id, :name) %><br><br>
+  <h5>Assigned to :</h5>
+  <%= collection_select(:user,:assigned_to, User.all ,:id, :name) %><br><br>
+  <h5>Project :</h5>
+  <%= collection_select(:project,:project_id, Project.all ,:id, :title) %><br><br>
+  <%= f.submit "Create" %>
+
+  </div>
+<% end %>
