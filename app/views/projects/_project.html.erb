@@ -1,0 +1,13 @@
+<li>
+  <h3>
+    <%= link_to project.title.capitalize, project %>
+  </h3>
+  <h5>
+    <%=project.description%>
+  <h5>
+  <% if current_user.admin? %>
+    <%= link_to "delete", project, method: :delete,
+                                  data: { confirm: "You sure?" } %>
+    | <%= link_to "edit", [:edit, project] %>
+  <% end %>
+</li>

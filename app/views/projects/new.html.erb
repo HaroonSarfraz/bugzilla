@@ -1,0 +1,8 @@
+<h1>New project</h1>
+<div class="container" style="width:400px;float:left;margin-left: 50px">
+<%= bootstrap_form_for(@project) do |f| %>
+  <%= f.text_field :title %>
+  <%= f.text_area :description %>
+  <%= f.submit "Create" %>
+  </div>
+<% end %>
