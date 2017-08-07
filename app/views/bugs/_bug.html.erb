@@ -1,0 +1,18 @@
+<div class="panel panel-info" style="margin-right: 50px">
+  <div class="panel-heading">
+    <%= link_to bug.title.capitalize, project_bug_path(bug.project,bug) %>
+  </div>
+  <div class="panel-body">
+      <%=bug.description%>
+
+
+    <div>
+    <% if current_user.admin? %>
+      <%= link_to "delete", project_bug_path(bug.project,bug),
+                                    data: { confirm: "You sure?" } , :method => :delete %>
+      | <%= link_to "edit", edit_project_bug_path(bug.project,bug) %>
+      | <%= link_to "show", project_bug_path(bug.project,bug) %>
+    <% end %>
+    </div>
+  </div>
+</div>

@@ -53,6 +53,8 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
+    Project.find(params[:id]).destroy
+
   end
 
   def show

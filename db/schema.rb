@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170804101158) do
+ActiveRecord::Schema.define(version: 20170807080922) do
 
   create_table "bugs", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.string "type"
+    t.string "bug_type"
     t.string "status"
     t.integer "created_by"
     t.integer "asigned_to"
@@ -23,6 +23,10 @@ ActiveRecord::Schema.define(version: 20170804101158) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.time "deadline"
+    t.string "screenshot_file_name"
+    t.string "screenshot_content_type"
+    t.integer "screenshot_file_size"
+    t.datetime "screenshot_updated_at"
     t.index ["project_id"], name: "index_bugs_on_project_id"
   end
 

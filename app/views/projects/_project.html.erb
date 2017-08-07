@@ -1,27 +1,25 @@
-<li>
-  <h3>
-    <%= link_to project.title.capitalize, project %>
-  </h3>
-  <h5>
-    <%=project.description%>
-  <h5>
-    <h5>
-    Project Members
-    <br>
-    <ol>
-    <% project.users.each { |u|%>
-      <li>
-        <%=u.name.capitalize%>
-      </li>
-      <%}%>
-    </ol>
-
-  <h5>
-
-
+<div class="panel panel-info" style="margin-right: 50px">
+  <div class="panel-heading">
+  <%= link_to project.title.capitalize, project %>
+  </div>
+  <div class="panel-body">
+    <%= project.description %>
+  <div style="width:100%">
+    <table class="table table-hover" style="width: 40%;border: 2px;border-color: #000000">
+    <tr>
+      <th>No of users</th>
+      <th>No of bugs</th>
+    </tr>
+    <tr>
+      <td><%=project.users.count%></td>
+      <td><%=project.bugs.count%></td>
+    </tr>
+    </table>
+  </div>
   <% if current_user.admin? %>
-    <%= link_to "delete", project, method: :delete,
-                                  data: { confirm: "You sure?" } %>
-    | <%= link_to "edit", [:edit, project] %>
+    <%= link_to "delete", project, method: :delete, data: { confirm: "You sure?" } %>
+    |<%= link_to "Edit", [:edit, project] %>
+    |<%= link_to "Show", [ project] %>
   <% end %>
-</li>
+</div>
+</div>

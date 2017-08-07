@@ -1,15 +1,53 @@
-<h1>Project Info</h1>
-<div class="row">
-  <aside class="col-md-4">
-    <section >
-      <h4>
-      Title :
-        <%= @project.title.capitalize %>
-      </h4>
-      <h4>
-      Description :
-        <%= @project.description %>
-      </h4>
-    </section>
-  </aside>
+<div class="row" style="margin-left: 20px">
+  <h3>
+    <%= @project.title.capitalize %>
+  </h3>
+  <p style="margin-left: 20px">
+      <%= @project.description %>
+  </p>
+  <div style="margin-top: 40px;margin-right: 40px;width: 350px">
+    <h4>Project users</h4>
+    <table class="table table-hover">
+      <tr style="color: #000000; ">
+        <th>Id</th>
+        <th>Name</th>
+        <th>email</th>
+      </tr>
+      <%@project.users.each do |u|%>
+        <tr>
+          <td><%=u.id%></td>
+          <td><%=u.name%></td>
+          <td><%=u.email%></td>
+        <tr>
+      <% end%>
+    </table>
+  </div>
+  <div style="margin-top: 40px; width: 600px">
+  <h4>Project Bugs</h4>
+    <table class="table table-hover" >
+      <tr style="color: #000000;">
+        <th>Id</th>
+        <th>Title</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Creater</th>
+        <th>Assignee</th>
+      </tr>
+      <%@project.bugs.each do |u|%>
+        <tr>
+          <td><%=u.id%></td>
+          <td><%=u.title%></td>
+          <td><%=u.bug_type%></td>
+          <td><%=u.status%></td>
+          <td><%=u.creater.name%></td>
+          <td><%=if u.asigned != nil
+                    u.asigned.name
+                  else
+                      "Assign me"
+                  end%></td>
+        </tr>
+      <% end%>
+    </table>
+  </div>
+  <%= link_to "Report Bug" , new_project_bug_path(@project)%>
 </div>

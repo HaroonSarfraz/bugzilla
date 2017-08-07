@@ -1,2 +1,23 @@
-<h1>Bugs#show</h1>
-<p>Find me in app/views/bugs/show.html.erb</p>
+<h1>Bug Info</h1>
+<div class="row">
+  <aside class="col-md-4">
+    <section >
+      <h4>
+      Title :
+        <%= @bug.title.capitalize %>
+      </h4>
+      <h4>
+      Description :
+        <%= @bug.description %>
+      </h4>
+      <h4>
+      created by :
+        <%= @bug.creater.name %>
+      </h4>
+      <h4>
+      Assigned to :
+        <%= @bug.asigned.name %>
+      </h4>
+    </section>
+  </aside>
+</div>
