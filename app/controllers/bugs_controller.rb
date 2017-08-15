@@ -25,7 +25,6 @@ class BugsController < ApplicationController
     @b = Bug.find(params[:bug_id])
     authorize @b , :create?
     @b.asigned = current_user
-    puts(current_user.name)
     @b.save
     render json: current_user
   end

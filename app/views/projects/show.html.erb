@@ -44,10 +44,10 @@
           <td><%=u.status%></td>
           <td><%=u.creater.name%></td>
           <%if current_user.user_type == "Developer" && u.asigned.nil? %>
-            <td class="btn btn-primary assign_bug", id='bla-<%=u.id %>'>
+            <td class="btn btn-primary assign_bug", id='<%=u.id %>'>
               Assign me
             </td>
-            <td class="show_me" ,  id='sho<%=u.id %>' hidden="true">
+            <td class="show_me" ,  id='<%=u.id %>' hidden="true">
               <%=current_user.name%>
             </td>
           <%elsif u.asigned.nil?%>
@@ -70,9 +70,10 @@
           url: '/projects/'+this.parentElement.id+'/bugs/'+this.id+'/assign_bug',
           type: 'GET',
           success: function(r){
-            $('.assign_bug').find('.'+this.id).removeClass('btn btn-primary');
-            $('.assign_bug').find('.'+this.id).val(r.name);
-          }
+            var b = '#'+e.target.id;
+            $(b).html(r.name);
+            $(b).removeClass('btn btn-primary');
+            }
         });
       }
     });
