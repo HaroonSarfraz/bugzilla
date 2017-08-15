@@ -13,16 +13,24 @@
 //= require rails-ujs
 //= require turbolinks
 //= require_tree .
-
-
+//= require jquery
+//= require jquery_ujs
+//= require angular
+//= require angular-animate
+//= require angular-resource
 *= require twitter/bootstrap
  *= require_self
  *= require_tree .
  *= require twitter/bootstrap/responsive
- /= require moment
+ //= require moment
 //= require bootstrap-datetimepicker
 //= require moment/<locale>
-//=require jquery
 
 //=require bootstrap
+//= require angular
 
+
+var myApp = angular.module("myModule" , [])
+myApp.controller("myController", function(@scope){
+  $scope.message = "Hello JS";
+});

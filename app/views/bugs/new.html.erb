@@ -1,3 +1,26 @@
+<script>
+
+function changeStatus()
+{
+
+  var value = document.getElementById("bug_bug_type");
+  value = value.options[value.selectedIndex].value;
+
+  if (value == "Feature")
+  {
+    document.getElementById("Fstatus").style.display = 'block';
+    document.getElementById("Bstatus").style.display = 'none';
+
+  }
+  else if (value == "Bug")
+  {
+    document.getElementById("Fstatus").style.display = 'none';
+    document.getElementById("Bstatus").style.display = 'block';
+  }
+}
+</script>
+
+
 <h1>New bug</h1>
 <div class="container" style="width:500px;float:left;margin-left: 50px">
   <%= bootstrap_form_for([@project, @bug], layout: :inline, label_col: "col-sm-2") do |f| %>
@@ -5,10 +28,16 @@
   <%= f.text_field :title , layout: :default  ,label: "Title "%><br><br>
   <%= f.text_area :description, layout: :default %><br><br>
   <%= f.datetime_select :deadline  %><br><br>
-  <%= f.select :bug_type, [["Feature", "Feature"], ["Bug", "Bug"]], { label: "Choose bug type:" }, { class: "selectpicker" } %>
-  <%= f.select :status, [["new", "new"], ["started", "started"], ["completed", "completed"]], { label: "Choose bug status:" }, { class: "selectpicker" } %><br>
+  <%= f.select :bug_type, [["Feature", "Feature"], ["Bug", "Bug"]], { class: "selectpicker" }, onchange: "changeStatus()" %>
+  <div id="Fstatus">
+  <%= f.select :status, [["new", "new"], ["started", "started"], ["completed", "completed"]], { label: "Choose bug status :" }, { class: "selectpicker" } %>
+  </div>
+  <div id="Bstatus" hidden="true">
+  <%= f.select :status, [["new", "new"], ["started", "started"], ["Resolved", "Resolved"]], { label: "Choose bug status:" }, { class: "selectpicker" }  %><br>
+  </div>
   <%=f.file_field :screenshot%><br><br>
   <%= f.submit "Create" %>
   <% end %>
 </div>
+
 

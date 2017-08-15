@@ -1,23 +1,70 @@
 <h1>Bug Info</h1>
-<div class="row">
-  <aside class="col-md-4">
-    <section >
-      <h4>
-      Title :
-        <%= @bug.title.capitalize %>
-      </h4>
-      <h4>
-      Description :
-        <%= @bug.description %>
-      </h4>
-      <h4>
-      created by :
-        <%= @bug.creater.name %>
-      </h4>
-      <h4>
-      Assigned to :
-        <%= @bug.asigned.name %>
-      </h4>
-    </section>
-  </aside>
+<div class="panel panel-info" style="margin-right: 50px">
+  <div class="panel-heading" style="height: 55px">
+    <span style="float: left"><%= @bug.title.capitalize %></span>
+    <span style="float: right"><%= link_to "Show Project", project_path(id: @bug.project.id), class: "btn btn-primary"%></span>
+    <%if current_user.admin? or @bug.asigned_to == current_user.id%>
+    <span style="float: right;margin-right: 20px"><%= link_to "Edit Bug", edit_project_bug_path(project_id: @bug.project.id,id: @bug.id), class: "btn btn-primary"%></span>
+    <%end%>
+  </div>
+  <div class="panel-body">
+    <div style="float: left;width: 600px;margin-top: 20px">
+      <p><%= @bug.description %></p>
+      <table class="table table-hover" style="width: 40%;border: 2px;border-color: #000000;margin-top: 20px">
+        <tr>
+          <td>Created by</td>
+          <td><%=@bug.creater.name%></td>
+        </tr>
+        <tr>
+          <td>Assigned to</td>
+          <td>
+            <%if !@bug.asigned.nil? %>
+              <%=@bug.asigned.name%></td>
+            <%else%>
+              Not yet assigned
+            <%end%>
+        </tr>
+        <tr>
+          <td>Bug Type</td>
+          <td><%=@bug.bug_type%></td>
+        </tr>
+        <tr>
+          <td>Bug status</td>
+          <td>
+            <div id="showStatus">
+              <%=@bug.status%>
+            </div>
+          </td>
+        </tr>
+        <%if current_user == @bug.asigned && (@bug.status.downcase == 'new' || @bug.status.downcase == 'started' ) %>
+          <tr>
+          <td>Change status to</td>
+          <td>
+            <div id="changeStatus">
+              <div id="startedButton">
+                <%if @bug.status.downcase == "new"%>
+                  <%= link_to "Started" , project_bug_change_status_path(status: "Started", bug_id: @bug.id) , class: "btn btn-primary"%>
+                <%end%>
+              </div>
+              <div id="finishResolve">
+                <%if @bug.status.downcase == "started" and @bug.bug_type.downcase == "bug"%>
+                  <%= link_to "Resolved" , project_bug_change_status_path(status: "Resolved", bug_id: @bug.id) ,class: "btn btn-primary" %>
+                <%elsif @bug.status.downcase == "started" and @bug.bug_type.downcase == "feature"%>
+                  <%= link_to "Completed" , project_bug_change_status_path(status: "Completed", bug_id: @bug.id) , class: "btn btn-primary"%>
+                <%end%>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+    </div>
+    <div style="float: left">
+      <%if @bug.screenshot.file? %>
+        <%= image_tag @bug.screenshot , size: "200"%>
+      <%else%>
+        No screenshot available
+      <%end%>
+    </div>
+  </div>
 </div>

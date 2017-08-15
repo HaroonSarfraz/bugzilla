@@ -1,9 +1,8 @@
-<div class="jumbotron" , style="padding-left:40px;">
+<div class="jumbotron" , style="padding-left:40px;" ng-app>
   <% if user_signed_in? %>
-    <h1>Welcome back, trusted user!</h1>
+    <h1>Welcome to BUGZILLA</h1>
     <p class="lead">
-      You have signed in!  If this were a real app some sweet conent
-      would go here.  But it's just a test.  You might want to sign out now.
+      Here u can create projects and manage your project features and bugs easily.
     </p>
     <%= link_to "Sign Out", destroy_user_session_path, :method => :delete, :class => 'btn btn-large btn-danger' %>
   <% else %>
@@ -21,4 +20,8 @@
       </div>
     </div>
   <% end %>
+</div>
+<div ng-controller="myController">
+  <!-- testing angular-->
+  20 + 30 = {{message}}
 </div>

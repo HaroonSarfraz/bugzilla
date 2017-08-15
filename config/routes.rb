@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :projects do
-    resources :bugs
+    resources :bugs do
+      get 'assign_bug'
+      get 'change_status'
+    end
   end
   devise_for :users, controllers: {
       sessions: 'users/sessions',

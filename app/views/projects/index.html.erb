@@ -1,3 +1,12 @@
-<h1>Projects</h1>
+<div style="height: 70px;margin-left: 40px">
+  <span style="float: left;">
+    <h1>Projects</h1>
+  </span>
+  <% if current_user.admin? or current_user.user_type == "Manager"%>
+    <span style="float: right;margin: 20px; margin-right: 50px">
+      <%= button_to "New", new_project_path, { :class=>"btn btn-primary", :method => :get }  %>
+    </span>
+  <% end %>
+</div>
 <%= render @projects %>
 <%= will_paginate %>

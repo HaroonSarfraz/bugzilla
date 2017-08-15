@@ -5,12 +5,12 @@ class Bug < ApplicationRecord
 
 
   validates :title , presence: true , length: {maximum: 50}
-
+  validates :project_id, uniqueness:{scope:[:title]}
   self.per_page = 5
 
   has_attached_file :screenshot, style: {medium: "300*300>",thumb: "100*100>" },
   default_url: "/images/:style/missing.png"
     validates_attachment_content_type :screenshot,
-    content_type: /\Aimage\/.*\z/
+    content_type: /\Aimage\/(jpg|jpeg|pjpeg|png|x-png|gif)\z/
 
 end

@@ -1,45 +1,27 @@
 class ProjectsController < ApplicationController
+  before_action :authenticate_user!
+   after_action :verify_authorized, only: [:create , :update, :destroy ]
   def new
+    @users = User.all;
     @project = Project.new
   end
-
   def create
-
-    @project = Project.new
-    @project.title = params[:project][:title]
-    @project.description = params[:project][:description]
-    puts(current_user)
-
-
-    #@project.users =
+    @project = Project.new(project_params)
+    authorize @project
     if @project.save
       flash[:success] = "Project Created successfully!"
-      @up = UserProject.new
-      @up.user = current_user
-      @up.project = @project
-      @up.save
-
+      render 'show'
     else
     flash[:failure] = "Please fix given errors "
     render 'new'
-
-
     end
 
   end
 
   def update
     @project = Project.find(params[:id])
-    @project.title = params[:project][:title]
-    @project.description = params[:project][:description]
-    if @project.save
-      @up = UserProject.new
-      @up.project = @project
-      @up.user= User.find(params[:user][:user_id])
-      @up.save
-      puts("this is given value")
-      puts(@up.user.name)
-
+    authorize @project
+    if @project.update_attributes(project_params)
       flash[:success] = "Project Information updated"
       redirect_to @project
     else
@@ -49,19 +31,44 @@ class ProjectsController < ApplicationController
 
   def edit
     @project = Project.find(params[:id])
-
+    @users = User.all;
   end
 
   def destroy
-    Project.find(params[:id]).destroy
-
+    @p = Project.find(params[:id])
+    authorize @p
+    @p.destroy
+    redirect_to projects_url
   end
 
   def show
     @project = Project.find(params[:id])
-  end
+    end
 
   def index
     @projects = Project.paginate(page: params[:page])
+    #authorize Project
   end
+  def project_params
+    params.require(:project).permit(:title, :description, user_projects_attributes: [:access, user_attributes: [:id]], :user_ids => [])
+  end
+
+public
+  def admin?
+    if !user_signed_in?
+      return false
+    elsif current_user.admin.nil?
+      return false
+    else
+      return current_user.admin
+    end
+  end
+  def canchange?(project)
+    current_user.projects.include? project
+  end
+
+
+
+
 end
+

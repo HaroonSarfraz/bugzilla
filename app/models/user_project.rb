@@ -1,6 +1,6 @@
 class UserProject < ApplicationRecord
   belongs_to :user
   belongs_to :project
-
-  attr_accessor :user_id, :project_id
+  accepts_nested_attributes_for :user, :reject_if =>:all_blank
+  #attr_accessor :user_id, :project_id
 end

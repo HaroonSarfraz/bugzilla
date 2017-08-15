@@ -40,6 +40,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
+    angularjs-rails (1.6.2)
     arel (8.0.0)
     autoprefixer-rails (7.1.2.3)
       execjs
@@ -220,6 +221,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  angularjs-rails
   bootstrap-sass
   bootstrap-sass-rails
   bootstrap-will_paginate

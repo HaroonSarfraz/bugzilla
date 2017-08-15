@@ -1,20 +1,17 @@
 class BugsController < ApplicationController
-  before_action :set_project
+  #before_action :authenticate_user!
+  before_action :set_project , :authenticate_user!
+  after_action :verify_authorized, only: [:create , :update, :destroy ]
+
   def new
     @bug = @project.bugs.new
   end
 
   def create
     @bug = Bug.create(bug_params)
-    #@bug.deadline = DateTime.new(params[:bug]["deadline(1i)"].to_i,params[:bug]["deadline(2i)"].to_i,params[:bug]["deadline(3i)"].to_i,params[:bug]["deadline(4i)"].to_i,params[:bug]["deadline(5i)"].to_i)
-    #@bug.title = params[:bug][:title]
-    #@bug.description = params[:bug][:description]
-    #@bug.project = Project.find(params[:bug][:project_id])
-    #@bug.creater = current_user
-    ##@bug.asigned = current_user
-    #@bug.bug_type = params[:bug][:bug_type]
-    #@bug.status = params[:bug][:status]
-    #puts(@bug.inspect)
+    @bug.project = Project.find(params[:bug][:project_id])
+    @bug.creater = current_user
+    authorize @bug
     if @bug.save
       flash[:success] = "Bug created  "
       render 'show'
@@ -22,26 +19,40 @@ class BugsController < ApplicationController
       flash[:failure] = "Please fix given errors "
       render 'new'
     end
-
-
   end
+  def assign_bug
+    @p = Project.find(params[:project_id])
+    @b = Bug.find(params[:bug_id])
+    authorize @b , :create?
+    @b.asigned = current_user
+    puts(current_user.name)
+    @b.save
+    render json: current_user
+  end
+  def change_status
+    @b = Bug.find(params[:bug_id])
+    authorize @b , :update?
+    @b.status = params[:status]
+    @b.save
+    redirect_to project_bug_path(project_id: @b.project.id ,id: @b.id)
+  end
+
+
 
   def update
     @bug = Bug.find(params[:id])
     @bug.deadline = DateTime.new(params[:bug]["deadline(1i)"].to_i,params[:bug]["deadline(2i)"].to_i,params[:bug]["deadline(3i)"].to_i,params[:bug]["deadline(4i)"].to_i,params[:bug]["deadline(5i)"].to_i)
     @bug.title = params[:bug][:title]
     @bug.description = params[:bug][:description]
-    @bug.project = Project.find(params[:project][:project_id])
-    @bug.asigned_to = params[:bug][:asigned_to]
-    @bug.created_by = params[:bug][:created_by]
-    @bug.type = params[:bug][:type]
-    @bug.status = params[:bug][:status]
-    @bug.screenshot = params[:bug][:status]
-
+    @bug.screenshot = params[:bug][:screenshot]
+    authorize @bug
+    #authorize @bug
     if @bug.save
       flash[:success] = "Bug updated  "
+      render 'show'
     else
       flash[:failure] = "Please fix given errors "
+      render 'edit'
     end
   end
 
@@ -50,7 +61,8 @@ class BugsController < ApplicationController
   end
 
   def destroy
-    Bug.find(params[:id]).destroy
+    b = authorize Bug.find(params[:id])
+    b.destroy
   end
 
   def show

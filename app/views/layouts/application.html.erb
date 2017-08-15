@@ -5,10 +5,10 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
   </head>
 
-  <body>
+  <body ng-app="myModule">
   <div class="container-narrow" , style="padding-left:30px;">
   <div class="masthead">
     <%= render 'layouts/header' %>

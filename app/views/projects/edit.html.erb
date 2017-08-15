@@ -1,14 +1,13 @@
-<h1>Edit Project</h1>
+<h1>Edit project</h1>
 <div class="container" style="width:400px;float:left;margin-left: 50px">
-<%= bootstrap_form_for(@project) do |f| %>
-  <%= f.text_field :title %>
-  <%= f.text_area :description %>
-   <%= collection_select(:user,:user_id, User.all ,:id, :name) %>
-  <br>
-  <br>
+  <%= bootstrap_form_for([@project]) do |f| %>
+    <%= f.text_field :title %>
+    <%= f.text_area :description %>
+    <div style="overflow: auto; max-height: 130px;margin-bottom: 20px">
+      <%= f.collection_check_boxes(:user_ids , @users , :id, :name) %>
 
-  <%= f.submit "  Edit  " %>
+    </div>
+    <%= f.submit "Edit" %>
+  <% end %>
+</div>
 
-
-  </div>
-<% end %>
