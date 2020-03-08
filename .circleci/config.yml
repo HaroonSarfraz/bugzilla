@@ -25,8 +25,22 @@ jobs:
           name: Which bundler?
           command: bundle -v
 
+      # restoring cache
+      - restore_cache:
+          keys:
+            - bugzilla-{{ checksum "Gemfile.lock" }}
+            - bugzilla-
+
       # Bundle install dependencies
-      - run: bundle install --path vendor/bundle
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+     # Store bundle cache
+      - save_cache:
+          key: bugzilla-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
 
       # Wait for DB
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
