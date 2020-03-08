@@ -14,9 +14,13 @@ jobs:
           POSTGRES_USER: bugzilla
           POSTGRES_DB: bugzilla_test
           POSTGRES_PASSWORD: ""
-    executor: default
     steps:
       - checkout
+
+      # Which version of bundler?
+      - run:
+        name: Which bundler?
+        command: bundle -v
 
       - run: cp .sample.env .env
 

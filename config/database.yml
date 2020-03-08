@@ -4,6 +4,7 @@ development:
   database: bugzilla_development
   pool: 5
   timeout: 5000
+  host: localhost
   username: <%= ENV['BUGZILA_DEV_DB_USER'] %>
   password: <%= ENV['BUGZILA_DEV_DB_PASSWORD'] %>
 
@@ -13,6 +14,7 @@ test:
   database: bugzilla_test
   pool: 5
   timeout: 5000
+  host: localhost
   username: <%= ENV['BUGZILA_TEST_DB_USER'] %>
   password: <%= ENV['BUGZILA_TEST_DB_PASSWORD'] %>
 
