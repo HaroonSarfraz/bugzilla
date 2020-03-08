@@ -1,0 +1,54 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2
+
+jobs:
+  build:
+    working_directory: ~/bugzilla
+    docker:
+      - image: circleci/ruby:2.6.3-stretch-node
+        environment:
+          BUNDLE_PATH: vendor/bundle
+          BUGZILA_TEST_DB_USER: bugzilla
+          BUGZILA_TEST_DB_PASSWORD: password
+          RAILS_ENV: test
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: bugzilla
+          POSTGRES_DB: bugzilla_test
+          POSTGRES_PASSWORD: password
+    steps:
+      - checkout
+
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      # restoring cache
+      - restore_cache:
+          keys:
+            - bugzilla-{{ checksum "Gemfile.lock" }}
+            - bugzilla-
+
+      # Bundle install dependencies
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+     # Store bundle cache
+      - save_cache:
+          key: bugzilla-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      # Wait for DB
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run: cp .sample.env .env
+
+      # Setup the database
+      - run: bundle exec rake db:setup
+
+      # Run the tests
+      - run: bundle exec rspec
