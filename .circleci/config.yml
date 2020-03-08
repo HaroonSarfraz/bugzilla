@@ -4,6 +4,7 @@ orbs:
 
 jobs:
   build:
+    working_directory: ~/bugzilla
     docker:
       - image: circleci/ruby:2.6.3
         environment:
@@ -17,18 +18,18 @@ jobs:
     steps:
       - checkout
 
-      # Which version of bundler?
-      - run:
-        name: Which bundler?
-        command: bundle -v
-
-      - run: cp .sample.env .env
+      # # Which version of bundler?
+      # - run:
+      #   name: Which bundler?
+        # command: bundle -v
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
 
       # Wait for DB
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run: cp .sample.env .env
 
       # Setup the database
       - run: bundle exec rake db:setup
