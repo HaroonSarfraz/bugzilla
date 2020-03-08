@@ -1,19 +1,19 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: bugzila_development
+  database: bugzilla_development
   pool: 5
   timeout: 5000
   username: <%= ENV['BUGZILA_DEV_DB_USER'] %>
-  password: <%= ENV['BUGZILA_TEST_DB_PASSWORD'] %>
+  password: <%= ENV['BUGZILA_DEV_DB_PASSWORD'] %>
 
 test:
   adapter: postgresql
   encoding: unicode
-  database: bugzila_test
+  database: bugzilla_test
   pool: 5
   timeout: 5000
-  username: <%= ENV['BUGZILA_DEV_DB_USER'] %>
+  username: <%= ENV['BUGZILA_TEST_DB_USER'] %>
   password: <%= ENV['BUGZILA_TEST_DB_PASSWORD'] %>
 
 production:
