@@ -9,19 +9,15 @@ jobs:
       - image: circleci/ruby:2.6.3
         environment:
           BUGZILA_TEST_DB_USER: bugzilla
+          BUGZILA_TEST_DB_PASSWORD: password
           RAILS_ENV: test
       - image: postgres:9.5
         environment:
           POSTGRES_USER: bugzilla
           POSTGRES_DB: bugzilla_test
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: password
     steps:
       - checkout
-
-      # # Which version of bundler?
-      # - run:
-      #   name: Which bundler?
-        # command: bundle -v
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
