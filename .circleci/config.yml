@@ -6,7 +6,7 @@ jobs:
   build:
     working_directory: ~/bugzilla
     docker:
-      - image: circleci/ruby:2.6.3
+      - image: circleci/ruby:2.6.3-stretch-node
         environment:
           BUNDLE_PATH: vendor/bundle
           BUGZILA_TEST_DB_USER: bugzilla
